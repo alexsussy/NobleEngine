@@ -27,6 +27,7 @@ File = playdate.file
 Datastore = playdate.datastore
 Timer = playdate.timer
 FrameTimer = playdate.frameTimer
+Sound = playdate.sound
 
 -- In lua, variables are global by default, but having a "Global" object to put
 -- variables into is useful for maintaining sanity if you're coming from an OOP language.
@@ -57,6 +58,7 @@ import 'libraries/noble/modules/NobleSprite.lua'
 local isTransitioning = false
 local currentScene = nil
 local engineInitialized = false
+local previousUpdateTime = playdate.getCurrentTimeMilliseconds()
 
 -- configuration
 --
@@ -373,6 +375,10 @@ function playdate.update()
 	if (not isTransitioning and currentTransition ~= nil) then
 		currentTransition:execute()
 	end
+
+	local currentTime = playdate.getCurrentTimeMilliseconds() or 0
+	Global.deltaTime = math.floor(currentTime - previousUpdateTime) * 0.001
+	previousUpdateTime = currentTime
 end
 
 function playdate.gameWillPause()

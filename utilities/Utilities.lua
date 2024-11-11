@@ -195,3 +195,12 @@ function table.getSize(__table)
 	for _, _ in pairs(__table) do count += 1 end
 	return count
 end
+
+function table.shuffle(__table)
+	local shuffled = {}
+	for k, v in pairs(__table) do
+		local pos = math.random(1, #shuffled+1)
+		table.insert(shuffled, pos, v)
+	end
+	return shuffled
+end

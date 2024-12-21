@@ -376,9 +376,8 @@ function playdate.update()
 		currentTransition:execute()
 	end
 
-	local currentTime = playdate.getCurrentTimeMilliseconds() or 0
-	Global.deltaTime = math.floor(currentTime - previousUpdateTime) * 0.001
-	previousUpdateTime = currentTime
+	Global.deltaTime = playdate.getElapsedTime()
+	playdate.resetElapsedTime()
 end
 
 function playdate.gameWillPause()

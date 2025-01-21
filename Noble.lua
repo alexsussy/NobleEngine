@@ -323,7 +323,7 @@ local transitionCanvas = Graphics.image.new(400, 240)
 function playdate.update()
 	Noble.Input.update()				-- Check for Noble Engine-specific input methods.
 
-	Sequence.update()					-- Update all animations that use the Sequence library.
+	Sequence.update(Global.timeScale)					-- Update all animations that use the Sequence library.
 
 	-- Here we check to see if a transition currently in progress needs screenshots of the new scene.
 	-- If so, we route drawing for this frame into a new context.

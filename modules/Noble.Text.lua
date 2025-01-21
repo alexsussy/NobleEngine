@@ -65,6 +65,7 @@ function Noble.Text.draw(__string, __x, __y, __alignment, __localized, __font)
 	if (__font ~= nil) then Graphics.setFont(__font) end -- Temporary font
 
 	if (localized) then
+		--Graphics.drawLocalizedTextAligned(string, __x, __y, alignment, "jp")
 		Graphics.drawLocalizedTextAligned(string, __x, __y, alignment)
 	else
 		Graphics.drawTextAligned(string, __x, __y, alignment)

@@ -153,6 +153,10 @@ function math.lerp(a, b, t)
 	return a + (b - a) * t
 end
 
+function math.remap(__value, __oldMin, __oldMax, __newMin, __newMax)
+    return (__value - __oldMin) * (__newMax - __newMin) / (__oldMax - __oldMin) + __newMin
+end
+
 -- New array/table methods
 --
 

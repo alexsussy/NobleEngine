@@ -29,7 +29,7 @@ if not _easings then
 end
 
 local _runningSequences = table.create(32,0)
-local _previousUpdateTime = playdate.getCurrentTimeMilliseconds()
+
 
 -- This can be useful when you want your Sequence to continue in realtime
 -- when using playdate.stop() / .wait(milliseconds) / .start().
@@ -71,10 +71,7 @@ end
 -- put a low pacing to slow down all animations, great for tweaking
 function Sequence.update( pacing )
 	pacing = pacing or 1
-
-	local currentTime = playdate.getCurrentTimeMilliseconds()
-	local deltaTime = math.floor((currentTime-_previousUpdateTime) * pacing)
-	_previousUpdateTime = currentTime
+	local deltaTime = math.floor(Noble.getDeltaTime() * 1000 * pacing)  -- Convert seconds to milliseconds
 
 	for index = #_runningSequences, 1, -1 do
 		local seq = _runningSequences[index]

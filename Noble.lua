@@ -58,7 +58,7 @@ import 'libraries/noble/modules/NobleSprite.lua'
 local isTransitioning = false
 local currentScene = nil
 local engineInitialized = false
-local previousUpdateTime = playdate.getCurrentTimeMilliseconds()
+local deltaTime = nil
 
 -- configuration
 --
@@ -321,6 +321,9 @@ local transitionCanvas = Graphics.image.new(400, 240)
 -- Game loop
 --
 function playdate.update()
+	deltaTime = playdate.getElapsedTime()
+	playdate.resetElapsedTime()
+
 	Noble.Input.update()				-- Check for Noble Engine-specific input methods.
 
 	Sequence.update(Global.timeScale)					-- Update all animations that use the Sequence library.
@@ -375,9 +378,6 @@ function playdate.update()
 	if (not isTransitioning and currentTransition ~= nil) then
 		currentTransition:execute()
 	end
-
-	Global.deltaTime = playdate.getElapsedTime()
-	playdate.resetElapsedTime()
 end
 
 function playdate.gameWillPause()
@@ -390,4 +390,8 @@ function playdate.gameWillResume()
 	if (currentScene ~= nil) then
 		currentScene:resume()
 	end
+end
+
+function Noble.getDeltaTime()
+	return deltaTime
 end

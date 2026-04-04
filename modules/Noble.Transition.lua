@@ -202,7 +202,6 @@ function Noble.Transition:draw() end
 
 -- Noble Engine built-in transitions.
 --import 'libraries/noble/modules/Noble.Transition/Cut.lua'
-
 --import 'libraries/noble/modules/Noble.Transition/CrossDissolve.lua'
 import 'libraries/noble/modules/Noble.Transition/Dip.lua'
 import 'libraries/noble/modules/Noble.Transition/DipToBlack.lua'

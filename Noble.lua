@@ -59,6 +59,7 @@ local isTransitioning = false
 local currentScene = nil
 local engineInitialized = false
 local deltaTime = nil
+local launchCard = nil
 
 -- configuration
 --
@@ -99,7 +100,7 @@ local configuration = Utilities.copy(defaultConfiguration)
 -- @see Noble.transition
 -- @see setConfig
 -- @see NobleScene.init
-function Noble.new(StartingScene, __launcherTransitionDuration, __launcherTransition, __launcherTransitionProperties, __configuration, __sceneProperties)
+function Noble.new(StartingScene, LaunchCard, __launcherTransitionDuration, __launcherTransition, __launcherTransitionProperties, __configuration, __sceneProperties)
 
 	math.randomseed(playdate.getSecondsSinceEpoch()) -- Set a new random seed at runtime.
 
@@ -115,12 +116,16 @@ function Noble.new(StartingScene, __launcherTransitionDuration, __launcherTransi
 		Noble.resetConfig()
 	end
 
+	launchCard = LaunchCard
+
 	-- Screen drawing: see the Playdate SDK for details on these methods.
 	Graphics.sprite.setBackgroundDrawingCallback(
 		function (x, y, width, height)
 			if (currentScene ~= nil) then
 				-- Each scene has its own method for this. We only want to run one at a time.
 				currentScene:drawBackground(x, y, width, height)
+			elseif (launchCard ~= nil) then
+				launchCard:draw(0, 0)
 			else
 				Graphics.clear(Graphics.kColorBlack)
 			end
@@ -129,6 +134,10 @@ function Noble.new(StartingScene, __launcherTransitionDuration, __launcherTransi
 	-- Override this Playdate method that we've used already and don't want to be used again!
 	Graphics.sprite.setBackgroundDrawingCallback = function(callback)
 		error("BONK: Don't call Graphics.sprite.setBackgroundDrawingCallback() directly. Put background drawing code in your scenes' drawBackground() methods instead.")
+	end
+	
+	if (launchCard ~= nil) then
+		launchCard:draw(0, 0)
 	end
 
 	-- These values are used if not set.
@@ -281,6 +290,7 @@ function Noble.transitionMidpointHandler()
 	end
 	currentScene = queuedScene			-- New scene's update loop begins.
 	queuedScene = nil
+	launchCard = nil
 	currentScene:enter()				-- The new scene runs its "hello" code.
 end
 
